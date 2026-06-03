@@ -1,13 +1,13 @@
---
+---
 title: "How to use text user interface(TUI)"
---
+---
 
 # Purpose
 
 Teach how to use the command line (text-based interface) on macOS/Linux (Unix) and Windows.
 
-![](image.png)
-![](image-1.png)
+![](cmd.png)
+![](terminal.png)
 
 ## How to Open the Terminal / Command Prompt
 
