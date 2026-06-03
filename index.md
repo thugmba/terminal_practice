@@ -1,3 +1,7 @@
+--
+title: "How to use text user interface(TUI)"
+--
+
 # Purpose
 
 Teach how to use the command line (text-based interface) on macOS/Linux (Unix) and Windows.
