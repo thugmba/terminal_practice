@@ -6,6 +6,9 @@ title: "How to use text user interface(TUI)"
 
 Teach how to use the command line (text-based interface) on macOS/Linux (Unix) and Windows.
 
+![](image.png)
+![](image-1.png)
+
 ## How to Open the Terminal / Command Prompt
 
 Before you can run commands, you need to open your operating system's command line application:
