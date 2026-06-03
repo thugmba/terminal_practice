@@ -6,8 +6,8 @@ title: "How to use text user interface(TUI)"
 
 Teach how to use the command line (text-based interface) on macOS/Linux (Unix) and Windows.
 
-![](cmd.png)
-![](terminal.png)
+<img src="cmd.png" width="600">
+<img src="terminal.png" width="600">
 
 ## How to Open the Terminal / Command Prompt
 
