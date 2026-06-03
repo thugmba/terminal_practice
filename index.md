@@ -28,6 +28,7 @@ Below are quick reference tables comparing common commands for macOS/Linux (Bash
 | Action | macOS / Linux (Bash/Zsh) | Windows (Command Prompt) |
 | :--- | :--- | :--- |
 | **List files in a directory** | `ls` (or `ls -la`) | `dir` |
+| **Print current working directory** | `pwd` | `cd` |
 | **Move to a folder** | `cd folder_name` | `cd folder_name` |
 | **Move to parent folder** | `cd ..` | `cd ..` |
 
@@ -96,18 +97,55 @@ Below are quick reference tables comparing common commands for macOS/Linux (Bash
       06/03/2026  03:05 PM             5,522 todo.txt
       ```
       *(Here, `documentation` is a folder, and `todo.txt` is a file with a size of 5,522 bytes).*
+  * **How to Verify Execution**:
+    Check the terminal output directly to ensure the files and folders are listed successfully without any error message (such as `No such file or directory` or `File Not Found`).
 
+* **Print current working directory**:
+  To check your current location in the folder system:
+  * **macOS/Linux**:
+    ```bash
+    pwd
+    ```
+  * **Windows (Cmd)**:
+    ```cmd
+    cd
+    ```
+  * **How to Verify Execution**:
+    Check the terminal output directly to confirm it displays the full absolute path of your current folder (e.g., `/home/user/climate_research` or `C:\Users\user\climate_research`).
 
 * **Move into a folder**: 
   To enter a specific folder (directory):
   ```bash
   cd folder_name
   ```
+  * **How to Verify Execution**:
+    Run the command to print your current location:
+    * **macOS/Linux**:
+      ```bash
+      pwd
+      ```
+    * **Windows (Cmd)**:
+      ```cmd
+      cd
+      ```
+    *(Confirm that the output path now ends with `/folder_name` or `\folder_name`).*
+
 * **Move to the parent folder**:
   To go up one level to the folder that contains your current folder:
   ```bash
   cd ..
   ```
+  * **How to Verify Execution**:
+    Run the command to print your current location:
+    * **macOS/Linux**:
+      ```bash
+      pwd
+      ```
+    * **Windows (Cmd)**:
+      ```cmd
+      cd
+      ```
+    *(Confirm that the output path has changed to the parent folder).*
 
 
 ### 2. Managing Folders (Directories)
@@ -115,6 +153,18 @@ Below are quick reference tables comparing common commands for macOS/Linux (Bash
   ```bash
   mkdir new_folder
   ```
+  * **How to Verify Execution**:
+    Run the list command to verify the folder was created:
+    * **macOS/Linux**:
+      ```bash
+      ls
+      ```
+    * **Windows (Cmd)**:
+      ```cmd
+      dir
+      ```
+    *(Verify `new_folder` is present in the output).*
+
 * **Create a sub-folder**:
   To create a folder nested inside another one (e.g., `parent_folder/child_folder`):
   * **macOS/Linux**: Use the `-p` flag to create intermediate folders if they don't exist:
@@ -125,6 +175,18 @@ Below are quick reference tables comparing common commands for macOS/Linux (Bash
     ```cmd
     mkdir parent\child
     ```
+  * **How to Verify Execution**:
+    Run the list command for the parent folder:
+    * **macOS/Linux**:
+      ```bash
+      ls parent
+      ```
+    * **Windows (Cmd)**:
+      ```cmd
+      dir parent
+      ```
+    *(Verify `child` is listed inside the parent folder).*
+
 * **Rename a folder**:
   * **macOS/Linux**: Use `mv` (move/rename):
     ```bash
@@ -134,6 +196,17 @@ Below are quick reference tables comparing common commands for macOS/Linux (Bash
     ```cmd
     ren old_folder_name new_folder_name
     ```
+  * **How to Verify Execution**:
+    Run the list command to verify the name change:
+    * **macOS/Linux**:
+      ```bash
+      ls
+      ```
+    * **Windows (Cmd)**:
+      ```cmd
+      dir
+      ```
+    *(Verify the old folder name is gone and the new folder name is present).*
 
 ### 3. Managing Files
 * **Create an empty text file**:
@@ -145,6 +218,18 @@ Below are quick reference tables comparing common commands for macOS/Linux (Bash
     ```cmd
     type nul > notes.txt
     ```
+  * **How to Verify Execution**:
+    Run the detailed list command to check file existence and size:
+    * **macOS/Linux**:
+      ```bash
+      ls -l notes.txt
+      ```
+      *(Verify size is `0` bytes).*
+    * **Windows (Cmd)**:
+      ```cmd
+      dir notes.txt
+      ```
+      *(Verify size is `0` bytes).*
 
 * **Delete a file**:
   * **macOS/Linux**:
@@ -155,6 +240,18 @@ Below are quick reference tables comparing common commands for macOS/Linux (Bash
     ```cmd
     del notes.txt
     ```
+  * **How to Verify Execution**:
+    Run the list command to verify the file was removed:
+    * **macOS/Linux**:
+      ```bash
+      ls notes.txt
+      ```
+      *(Should return an error like `No such file or directory` or not show the file).*
+    * **Windows (Cmd)**:
+      ```cmd
+      dir notes.txt
+      ```
+      *(Should return `File Not Found`).*
 
 ### 4. Visualizing the Directory Structure
 * **Display a tree structure**:
@@ -169,6 +266,9 @@ Below are quick reference tables comparing common commands for macOS/Linux (Bash
     tree /F
     ```
     *(Note: The `/F` flag is required on Windows to show both folders and files; without it, only folders are listed).*
+  * **How to Verify Execution**:
+    Check the terminal output directly to verify that a tree-like hierarchy is drawn on your screen.
+
 
 
 ---
