@@ -142,8 +142,8 @@ code {
 .term-name {
   font-weight: 700;
   color: var(--primary-dark);
-  min-width: 220px;
-  white-space: nowrap;
+  width: 220px;
+  white-space: normal;
   font-size: 1.3em;
 }
 
@@ -181,7 +181,9 @@ code {
 
 .checklist li {
   position: relative;
-  padding-left: 36px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   margin-bottom: 16px;
   font-size: 1.3em;
   line-height: 1.6;
@@ -189,11 +191,9 @@ code {
 
 .checklist li::before {
   content: '☐';
-  position: absolute;
-  left: 0;
-  top: 2px;
   color: var(--primary);
-  font-size: 1.1em;
+  font-size: 1em;
+  flex-shrink: 0;
 }
 
 .badge {
@@ -299,7 +299,7 @@ strong { color: #1e293b; }
   </div>
 </div>
 
-<!-- Slide 3: Essential Terminology -->
+<!-- Slide 4: Essential Terminology -->
 <div class="slide content-slide">
   <h1>2. Essential Terminology (TUI Glossary)</h1>
   <div class="slide-body">
@@ -316,7 +316,7 @@ strong { color: #1e293b; }
   </div>
 </div>
 
-<!-- Slide 4: How to Open the Terminal -->
+<!-- Slide 5: How to Open the Terminal -->
 <div class="slide content-slide">
   <h1>3. How to Open the Terminal / Command Prompt</h1>
   <div class="slide-body">
@@ -346,7 +346,7 @@ strong { color: #1e293b; }
   </div>
 </div>
 
-<!-- Slide 5: Navigation -->
+<!-- Slide 6: Navigation -->
 <div class="slide content-slide">
   <h1>4. Common Commands: Navigation</h1>
   <div class="slide-body">
@@ -362,7 +362,7 @@ strong { color: #1e293b; }
   </div>
 </div>
 
-<!-- Slide 6: Managing Directories -->
+<!-- Slide 7: Managing Directories -->
 <div class="slide content-slide">
   <h1>4. Common Commands: Managing Directories</h1>
   <div class="slide-body">
@@ -378,7 +378,7 @@ strong { color: #1e293b; }
   </div>
 </div>
 
-<!-- Slide 7: Managing Files -->
+<!-- Slide 8: Managing Files -->
 <div class="slide content-slide">
   <h1>4. Common Commands: Managing Files</h1>
   <div class="slide-body">
@@ -395,7 +395,7 @@ strong { color: #1e293b; }
   </div>
 </div>
 
-<!-- Slide 8: Tree -->
+<!-- Slide 9: Tree -->
 <div class="slide content-slide">
   <h1>4. Common Commands: Directory Structure</h1>
   <div class="slide-body">
@@ -411,7 +411,7 @@ strong { color: #1e293b; }
   </div>
 </div>
 
-<!-- Slide 9: Setup & Navigation -->
+<!-- Slide 10: Setup & Navigation -->
 <div class="slide content-slide">
   <h1>5. Detailed Examples: Setup &amp; Navigation</h1>
   <div class="slide-body">
@@ -448,7 +448,7 @@ cd ..</code></pre>
   </div>
 </div>
 
-<!-- Slide 10: Managing Directories -->
+<!-- Slide 11: Managing Directories -->
 <div class="slide content-slide">
   <h1>5. Detailed Examples: Managing Directories</h1>
   <div class="slide-body">
@@ -484,7 +484,7 @@ ren documentation docs</code></pre>
   </div>
 </div>
 
-<!-- Slide 11: Managing Files -->
+<!-- Slide 12: Managing Files -->
 <div class="slide content-slide">
   <h1>5. Detailed Examples: Managing Files</h1>
   <div class="slide-body">
@@ -536,7 +536,7 @@ tree /F</code></pre>
   </div>
 </div>
 
-<!-- Slide 12: Student Evaluation: Scenario -->
+<!-- Slide 13: Student Evaluation: Scenario -->
 <div class="slide content-slide">
   <h1>6. Student Evaluation: Scenario</h1>
   <div class="slide-body">
@@ -552,7 +552,7 @@ tree /F</code></pre>
   </div>
 </div>
 
-<!-- Slide 13: Assessment Steps -->
+<!-- Slide 14: Assessment Steps -->
 <div class="slide content-slide">
   <h1>6. Step-by-Step Practical Assessment</h1>
   <div class="slide-body">
@@ -588,7 +588,7 @@ echo %date% %time% &amp;&amp; tree /F &amp;&amp; type documentation_[yourname]\t
   </div>
 </div>
 
-<!-- Slide 14: Deliverables -->
+<!-- Slide 15: Deliverables -->
 <div class="slide content-slide">
   <h1>6.3 Deliverables</h1>
   <div class="slide-body">
@@ -609,7 +609,7 @@ echo %date% %time% &amp;&amp; tree /F &amp;&amp; type documentation_[yourname]\t
   </div>
 </div>
 
-<!-- Slide 15: Evaluation Criteria -->
+<!-- Slide 16: Evaluation Criteria -->
 <div class="slide content-slide">
   <h1>6.4 Evaluation Criteria</h1>
   <div class="slide-body">
