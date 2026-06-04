@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to use command line interface (CLI)</title>
+<style>
+:root {
+  --primary: #dc2626;
+  --primary-dark: #991b1b;
+  --primary-light: #fee2e2;
+  --accent: #e11d48;
+  --accent-light: #ffe4e6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f3f4f6;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 50px 70px;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide.active { display: flex; transform: translateX(0); opacity: 1; }
+.slide.exit-left { display: flex; transform: translateX(-100%); opacity: 0; }
+.slide.exit-right { display: flex; transform: translateX(100%); opacity: 0; }
+
+.title-slide {
+  background: #fff !important;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.title-slide h1 {
+  font-size: 4.5em;
+  color: var(--primary);
+  margin-bottom: 28px;
+}
+
+.title-meta {
+  font-size: 2em;
+  color: #555;
+  line-height: 1.8;
+}
+
+.title-meta .affiliation { color: var(--primary-dark); font-weight: 600; }
+
+.content-slide {
+  border-top: 4px solid var(--primary);
+}
+
+h1 {
+  font-size: 2.8em;
+  color: var(--primary-dark);
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 1.6em;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+h3 {
+  font-size: 1.35em;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+p, li, td, th { font-size: 1.3em; line-height: 1.5; }
+ul, ol { margin-left: 1.5em; margin-bottom: 10px; }
+li { margin-bottom: 4px; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+  font-size: 1.2em;
+}
+
+th {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  border-right: 3px solid rgba(255,255,255,0.3);
+}
+
+th:last-child {
+  border-right: none;
+}
+
+td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tr:nth-child(even) td { background: #fafafa; }
+
+pre {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 1.15em;
+  overflow-x: auto;
+  margin-bottom: 10px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 1em;
+}
+
+.term-card {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.term-name {
+  font-weight: 700;
+  color: var(--primary-dark);
+  min-width: 220px;
+  white-space: nowrap;
+  font-size: 1.3em;
+}
+
+.term-desc { color: #444; font-size: 1.3em; }
+
+.col-card {
+  background: #fafafa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.step-box {
+  border-left: 3px solid var(--primary);
+  padding: 10px 16px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  border-radius: 0 6px 6px 0;
+  font-size: 1.3em;
+}
+
+.highlight-box {
+  background: #fef9c3;
+  border: 1px solid #facc15;
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 10px;
+  font-size: 1.3em;
+}
+
+.checklist {
+  list-style: none;
+  margin-left: 0;
+}
+
+.checklist li {
+  position: relative;
+  padding-left: 36px;
+  margin-bottom: 16px;
+  font-size: 1.3em;
+  line-height: 1.6;
+}
+
+.checklist li::before {
+  content: '☐';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  color: var(--primary);
+  font-size: 1.1em;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 1em;
+  font-weight: 600;
+  color: #fff;
+  margin-right: 6px;
+}
+
+.badge-mac { background: #333; }
+.badge-win { background: #0078d4; }
+.badge-linux { background: #f57c00; }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+#slideCounter {
+  position: fixed;
+  bottom: 12px;
+  left: 16px;
+  font-size: 0.8em;
+  color: #9ca3af;
+  z-index: 100;
+}
+
+#progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--primary);
+  z-index: 100;
+  transition: width 0.3s;
+}
+
+.img-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.img-row img {
+  max-width: 45%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.slide-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+strong { color: #1e293b; }
+</style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+<div id="slideCounter"></div>
+
+<!-- Slide 1: Title -->
+<div class="slide title-slide active">
+  <h1>How to use Command Line Interface (CLI)</h1>
+  <div class="title-meta">
+    <div>Innovation Analytics Lab.</div>
+    <div class="affiliation">Global Master of Business Administration</div>
+    <div>Tunghai University</div>
+    <div id="titleYear"></div>
+  </div>
+</div>
+
+<!-- Slide 2: Table of Contents -->
+<div class="slide content-slide">
+  <h1>Table of Contents</h1>
+  <div class="slide-body">
+    <ol style="font-size:1.3em;line-height:2.2;">
+      <li>Purpose</li>
+      <li>Essential Terminology (TUI Glossary)</li>
+      <li>How to Open the Terminal / Command Prompt</li>
+      <li>Common Command Line Operations (Quick Reference)</li>
+      <li>Detailed Examples &amp; Explanations</li>
+      <li>Student Evaluation: Real-World Scenario</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Slide 3: Purpose -->
+<div class="slide content-slide">
+  <h1>1. Purpose</h1>
+  <div class="slide-body">
+    <p style="margin-bottom:20px;">This tutorial introduces the <strong>command line interface (CLI)</strong>, a way to control your computer by typing text commands, rather than clicking icons, on macOS/Linux (Unix) and Windows. Proficiency in the CLI is a foundational skill for business and non-engineering students enrolled in artificial intelligence and machine learning courses.</p>
+    <div class="img-row">
+      <img src="cmd.png" alt="Command Prompt">
+      <img src="terminal.png" alt="Terminal">
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Essential Terminology -->
+<div class="slide content-slide">
+  <h1>2. Essential Terminology (TUI Glossary)</h1>
+  <div class="slide-body">
+    <div class="term-card"><span class="term-name">Directory (Folder)</span><span class="term-desc">A location in a file system used to store and organize files and other directories.</span></div>
+    <div class="term-card"><span class="term-name">Parent Directory</span><span class="term-desc">A directory that contains subdirectories. E.g., <code>climate_research</code> is the parent of <code>src</code>.</span></div>
+    <div class="term-card"><span class="term-name">Child Directory</span><span class="term-desc">A directory inside another. E.g., <code>src</code> is a child of <code>climate_research</code>.</span></div>
+    <div class="term-card"><span class="term-name">Current Working Dir</span><span class="term-desc">The directory you are currently "inside" in the terminal.</span></div>
+    <div class="term-card"><span class="term-name">Home Directory</span><span class="term-desc">Default personal directory (<code>~</code> on macOS/Linux, <code>C:\Users\Username</code> on Windows).</span></div>
+    <div class="term-card"><span class="term-name">Root Directory</span><span class="term-desc">Top-most directory (<code>/</code> on macOS/Linux, <code>C:\</code> on Windows).</span></div>
+    <div class="term-card"><span class="term-name">Project Root Dir</span><span class="term-desc">The top-most directory specific to a project, containing all related files and subdirectories.</span></div>
+    <div class="term-card"><span class="term-name">Absolute Path</span><span class="term-desc">Complete path from the root (e.g., <code>/home/user/climate_research</code>).</span></div>
+    <div class="term-card"><span class="term-name">Relative Path</span><span class="term-desc">Path relative to current dir (e.g., <code>src/main.py</code> or <code>../references</code>).</span></div>
+    <div class="term-card"><span class="term-name">Terminal / Shell</span><span class="term-desc">The text-based application (TUI) used to type and execute commands.</span></div>
+  </div>
+</div>
+
+<!-- Slide 4: How to Open the Terminal -->
+<div class="slide content-slide">
+  <h1>3. How to Open the Terminal / Command Prompt</h1>
+  <div class="slide-body">
+    <div class="two-col">
+      <div class="col-card">
+        <h3><span class="badge badge-mac">macOS</span> Terminal</h3>
+        <ul>
+          <li><strong>Spotlight</strong>: <code>Cmd + Space</code> → type <code>Terminal</code> → <code>Enter</code></li>
+          <li><strong>Applications</strong>: Finder → <code>Applications</code> → <code>Utilities</code> → Terminal</li>
+        </ul>
+      </div>
+      <div class="col-card">
+        <h3><span class="badge badge-win">Windows</span> Command Prompt</h3>
+        <ul>
+          <li><strong>Start Menu</strong>: <code>Win key</code> → type <code>cmd</code> → <code>Enter</code></li>
+          <li><strong>Run Dialog</strong>: <code>Win + R</code> → type <code>cmd</code> → <code>Enter</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-card" style="margin-top:16px;">
+      <h3><span class="badge badge-linux">Linux</span> Terminal</h3>
+      <ul>
+        <li><strong>Keyboard Shortcut</strong>: <code>Ctrl + Alt + T</code> (Ubuntu &amp; most distros)</li>
+        <li><strong>Application Launcher</strong>: Search for <code>Terminal</code> or <code>Console</code> in app menu</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Navigation -->
+<div class="slide content-slide">
+  <h1>4. Common Commands: Navigation</h1>
+  <div class="slide-body">
+    <table>
+      <thead><tr><th>Action</th><th>macOS / Linux</th><th>Windows (Cmd)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>List files</strong></td><td><code>ls</code> (or <code>ls -la</code>)</td><td><code>dir</code></td></tr>
+        <tr><td><strong>Print working dir</strong></td><td><code>pwd</code></td><td><code>cd</code></td></tr>
+        <tr><td><strong>Move to directory</strong></td><td><code>cd directory_name</code></td><td><code>cd directory_name</code></td></tr>
+        <tr><td><strong>Move to parent</strong></td><td><code>cd ..</code></td><td><code>cd ..</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Slide 6: Managing Directories -->
+<div class="slide content-slide">
+  <h1>4. Common Commands: Managing Directories</h1>
+  <div class="slide-body">
+    <table>
+      <thead><tr><th>Action</th><th>macOS / Linux</th><th>Windows (Cmd)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Create directory</strong></td><td><code>mkdir directory_name</code></td><td><code>mkdir directory_name</code></td></tr>
+        <tr><td><strong>Create subdirectory</strong></td><td><code>mkdir -p parent/sub</code></td><td><code>mkdir parent\sub</code></td></tr>
+        <tr><td><strong>Copy directory</strong></td><td><code>cp -r src dest</code></td><td><code>xcopy /E /I src dest</code></td></tr>
+        <tr><td><strong>Delete directory</strong></td><td><code>rm -rf directory_name</code></td><td><code>rmdir /s directory_name</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Slide 7: Managing Files -->
+<div class="slide content-slide">
+  <h1>4. Common Commands: Managing Files</h1>
+  <div class="slide-body">
+    <table>
+      <thead><tr><th>Action</th><th>macOS / Linux</th><th>Windows (Cmd)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Create text file</strong></td><td><code>touch file.txt</code></td><td><code>type nul > file.txt</code></td></tr>
+        <tr><td><strong>Open in GUI editor</strong></td><td><code>touch f &amp;&amp; open -e f</code></td><td><code>notepad file.txt</code></td></tr>
+        <tr><td><strong>View file contents</strong></td><td><code>cat file.txt</code></td><td><code>type file.txt</code></td></tr>
+        <tr><td><strong>Rename</strong></td><td><code>mv old_name new_name</code></td><td><code>ren old_name new_name</code></td></tr>
+        <tr><td><strong>Delete file</strong></td><td><code>rm file.txt</code></td><td><code>del file.txt</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Slide 8: Tree -->
+<div class="slide content-slide">
+  <h1>4. Common Commands: Directory Structure</h1>
+  <div class="slide-body">
+    <table>
+      <thead><tr><th>Action</th><th>macOS / Linux</th><th>Windows (Cmd)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Display tree</strong></td><td><code>tree</code></td><td><code>tree /F</code></td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box" style="margin-top:16px;">
+      <strong>Tip:</strong> On macOS/Linux, install via <code>brew install tree</code> or use <code>find .</code>. On Windows, <code>/F</code> shows files; without it, only folders are listed.
+    </div>
+  </div>
+</div>
+
+<!-- Slide 9: Setup & Navigation -->
+<div class="slide content-slide">
+  <h1>5. Detailed Examples: Setup &amp; Navigation</h1>
+  <div class="slide-body">
+    <div class="step-box">
+      <strong>Setup:</strong> Create a practice directory and navigate into it:
+      <pre><code>mkdir terminal_practice
+cd terminal_practice</code></pre>
+    </div>
+    <div class="two-col">
+      <div class="col-card">
+        <h3>List Files &amp; Directories</h3>
+        <pre><code># macOS/Linux
+ls
+ls -la
+
+# Windows
+dir</code></pre>
+        <p><strong>Interpreting output:</strong> <code>d</code> = directory, <code>-</code> = file, <code>l</code> = symlink. On Windows: <code>&lt;DIR&gt;</code> = directory, number = file.</p>
+      </div>
+      <div class="col-card">
+        <h3>Print Working Dir &amp; Navigate</h3>
+        <pre><code># Print current location
+pwd       # macOS/Linux
+cd        # Windows
+
+# Move into a directory
+mkdir documentation
+cd documentation
+
+# Move to parent directory
+cd ..</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 10: Managing Directories -->
+<div class="slide content-slide">
+  <h1>5. Detailed Examples: Managing Directories</h1>
+  <div class="slide-body">
+    <div class="step-box">
+      <strong>Create a directory:</strong>
+      <pre><code>mkdir src</code></pre>
+      Verify with <code>ls</code> or <code>dir</code>.
+    </div>
+    <div class="step-box">
+      <strong>Create nested subdirectories:</strong>
+      <pre><code># macOS/Linux
+mkdir -p paper/drafts
+
+# Windows
+mkdir paper\drafts</code></pre>
+    </div>
+    <div class="step-box">
+      <strong>Copy a directory:</strong>
+      <pre><code># macOS/Linux
+cp -r src src_backup
+
+# Windows
+xcopy /E /I src src_backup</code></pre>
+    </div>
+    <div class="step-box">
+      <strong>Rename a directory</strong> (<code>documentation</code> → <code>docs</code>):
+      <pre><code># macOS/Linux
+mv documentation docs
+
+# Windows
+ren documentation docs</code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 11: Managing Files -->
+<div class="slide content-slide">
+  <h1>5. Detailed Examples: Managing Files</h1>
+  <div class="slide-body">
+    <div class="two-col">
+      <div class="col-card">
+        <h3>Create Empty File</h3>
+        <pre><code># macOS/Linux
+touch notes.txt
+
+# Windows
+type nul > notes.txt</code></pre>
+      </div>
+      <div class="col-card">
+        <h3>Open in GUI Editor</h3>
+        <pre><code># macOS
+touch notes.txt &amp;&amp; open -e notes.txt
+
+# Windows
+notepad notes.txt</code></pre>
+      </div>
+    </div>
+    <div class="two-col" style="margin-top:14px;">
+      <div class="col-card">
+        <h3>View File Contents</h3>
+        <pre><code># macOS/Linux
+cat notes.txt
+
+# Windows
+type notes.txt</code></pre>
+      </div>
+      <div class="col-card">
+        <h3>Delete a File</h3>
+        <pre><code># macOS/Linux
+rm notes.txt
+
+# Windows
+del notes.txt</code></pre>
+      </div>
+    </div>
+    <div class="col-card" style="margin-top:14px;">
+      <h3>Visualizing the Directory Structure</h3>
+      <pre><code># macOS/Linux
+tree
+
+# Windows
+tree /F</code></pre>
+      <p>On macOS, install via <code>brew install tree</code> or use <code>find .</code>. On Windows, <code>/F</code> shows files.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 12: Student Evaluation: Scenario -->
+<div class="slide content-slide">
+  <h1>6. Student Evaluation: Scenario</h1>
+  <div class="slide-body">
+    <p style="margin-bottom:14px;"><strong>Setting up a Research Project Workspace</strong>: The practice root directory and all subdirectories must include your English name (e.g., <code>james</code>):</p>
+    <table>
+      <thead><tr><th>Type</th><th>Example Name</th></tr></thead>
+      <tbody>
+        <tr><td>Project root directory</td><td><code>climate_research_james</code></td></tr>
+        <tr><td>Subdirectories</td><td><code>src_james</code>, <code>output_james</code>, <code>paper_james/drafts_james</code>, <code>references_james</code>, <code>doc_james</code></td></tr>
+        <tr><td>File in <code>doc</code></td><td><code>todo.txt</code>: first line is your name, then task list</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Slide 13: Assessment Steps -->
+<div class="slide content-slide">
+  <h1>6. Step-by-Step Practical Assessment</h1>
+  <div class="slide-body">
+    <div class="step-box">
+      <strong>Step 1:</strong> Open the Terminal / Command Prompt.
+    </div>
+    <div class="step-box">
+      <strong>Step 2: Initialize</strong> Create <code>climate_research_[yourname]</code>, move into it.
+    </div>
+    <div class="step-box">
+      <strong>Step 3: Structure</strong> Create <code>src_</code>, <code>output_</code>, <code>paper_/drafts_</code>, <code>references_</code>, <code>doc_</code> subdirectories.
+    </div>
+    <div class="step-box">
+      <strong>Step 4: Files</strong> Create <code>doc_[name]/todo.txt</code> (name + task list), <code>references_[name]/sources.txt</code>.
+    </div>
+    <div class="step-box">
+      <strong>Step 5: Rename</strong> <code>doc_[name]</code> → <code>documentation_[name]</code>, <code>sources.txt</code> → <code>citations.txt</code>.
+    </div>
+    <div class="step-box">
+      <strong>Step 6: Cleanup</strong> Navigate to root, delete <code>output_[name]</code>.
+    </div>
+    <div class="step-box">
+      <strong>Step 7: Verify</strong> While inside <code>climate_research_[yourname]</code>, run:
+      <pre><code># macOS/Linux
+date &amp;&amp; tree &amp;&amp; cat documentation_[yourname]/todo.txt
+
+# Windows (Cmd)
+echo %date% %time% &amp;&amp; tree /F &amp;&amp; type documentation_[yourname]\todo.txt</code></pre>
+    </div>
+    <div class="step-box">
+      <strong>Step 8: Exit</strong> Navigate back to the parent directory with <code>cd ..</code>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 14: Deliverables -->
+<div class="slide content-slide">
+  <h1>6.3 Deliverables</h1>
+  <div class="slide-body">
+    <h2>Directory Structure Screenshot</h2>
+    <p>Take a screenshot of the entire terminal window showing:</p>
+    <ul>
+      <li>Execution of the verification command (<code>date &amp;&amp; tree</code> or Windows equivalent)</li>
+      <li>Your custom root directory name <code>climate_research_[yourname]</code></li>
+      <li>All named subdirectories</li>
+      <li>The printed timestamp</li>
+    </ul>
+    <div style="text-align:center;margin-top:14px;">
+      <img src="tree.png" alt="Tree example" style="max-width:45%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    </div>
+    <div class="highlight-box" style="margin-top:14px;">
+      <strong>Submit</strong> the screenshot to <strong>iLearn</strong> for grading.
+    </div>
+  </div>
+</div>
+
+<!-- Slide 15: Evaluation Criteria -->
+<div class="slide content-slide">
+  <h1>6.4 Evaluation Criteria</h1>
+  <div class="slide-body">
+    <ul class="checklist">
+      <li><strong>Terminal Launch</strong>: Student can open the terminal or command prompt correctly.</li>
+      <li><strong>Navigation</strong>: Student can move between nested directories without getting lost (<code>cd</code>, <code>cd ..</code>).</li>
+      <li><strong>Pathing</strong>: Student understands how to create nested directories with custom naming (e.g., <code>mkdir -p</code> or Windows equivalent).</li>
+      <li><strong>File Management</strong>: Student is able to create files inside specific directories and rename directories/files correctly.</li>
+      <li><strong>Safety</strong>: Student can safely delete files and empty or non-empty directories.</li>
+      <li><strong>Verification</strong>: Student is able to filter (grep) their terminal history to generate the verification report.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+document.getElementById('titleYear').textContent = new Date().getFullYear();
+
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+
+function autoScaleSlides() {
+  slides.forEach(slide => {
+    const body = slide.querySelector('.slide-body');
+    if (!body) return;
+    slide.style.display = 'flex';
+    body.style.fontSize = '1em';
+    const targetH = body.clientHeight * 0.96;
+    body.style.flex = 'none';
+    body.style.height = 'auto';
+    body.style.overflow = 'visible';
+    let lo = 0.9, hi = 1.5;
+    for (let j = 0; j < 25; j++) {
+      const mid = (lo + hi) / 2;
+      body.style.fontSize = mid + 'em';
+      if (body.scrollHeight <= targetH) lo = mid;
+      else hi = mid;
+    }
+    body.style.fontSize = lo + 'em';
+    body.style.flex = '';
+    body.style.height = '';
+    body.style.overflow = '';
+    slide.style.display = '';
+  });
+}
+
+autoScaleSlides();
+
+function showSlide(index, direction) {
+  if (direction === undefined) direction = index > current ? 'forward' : 'backward';
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'exit-left', 'exit-right');
+    if (i === index) s.classList.add('active');
+    else if (i < index) s.classList.add('exit-left');
+    else s.classList.add('exit-right');
+  });
+  const isTitle = slides[index] && slides[index].classList.contains('title-slide');
+  document.getElementById('slideCounter').style.display = isTitle ? 'none' : 'block';
+  document.getElementById('progressBar').style.display = isTitle ? 'none' : 'block';
+  document.getElementById('slideCounter').textContent = `${index + 1} / ${slides.length}`;
+  document.getElementById('progressBar').style.width = ((index + 1) / slides.length * 100) + '%';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (current > 0) { current--; showSlide(current, 'backward'); }
+  }
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    e.preventDefault();
+    if (current < slides.length - 1) { current++; showSlide(current, 'forward'); }
+  }
+  if (e.key === 'Home') { e.preventDefault(); current = 0; showSlide(current, 'backward'); }
+  if (e.key === 'End') { e.preventDefault(); current = slides.length - 1; showSlide(current, 'forward'); }
+});
+
+showSlide(0);
+</script>
+</body>
+</html>

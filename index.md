@@ -1,19 +1,20 @@
 ---
-title: "How to use text user interface(TUI)"
+title: "How to use command line interface (CLI)"
+author: "Innovation Analytics Lab."
 ---
 
-# How to use text user interface(TUI)
+# How to use command line interface (CLI)
 
 ## 1. Purpose
 
-Teach how to use the command line (text-based interface) on macOS/Linux (Unix) and Windows.
+This tutorial introduces the command line interface (CLI), a way to control your computer by typing text commands, rather than clicking icons, on macOS/Linux (Unix) and Windows. Proficiency in the CLI is a foundational skill for business and non-engineering students enrolled in artificial intelligence and machine learning courses.
 
 <img src="cmd.png" width="600">
 <img src="terminal.png" width="600">
 
-## 2. Essential Terminology (TUI Glossary)
+## 2. Essential Terminology (CLI Glossary)
 
-Before using the Text User Interface (TUI), it is important to understand the key terms:
+Before using the Command Line Interface (CLI), it is important to understand the key terms:
 
 * **Directory (or Folder)**: A location in a file system used to store and organize files and other directories. In the command line, the term **directory** is more commonly used than "folder", but they refer to the exact same concept.
 * **Parent Directory**: A directory that contains one or more other directories (subdirectories). For example, if a directory named `climate_research` contains a directory named `src`, then `climate_research` is the parent directory of `src`.
@@ -21,6 +22,7 @@ Before using the Text User Interface (TUI), it is important to understand the ke
 * **Current Working Directory (or Active Directory)**: The directory you are currently "inside" in the terminal. Any file or directory commands you run without specifying a path will execute within this directory.
 * **Home Directory**: The default personal directory assigned to a user account. It is where you start when you first open the terminal. (Represented by the tilde symbol `~` on macOS/Linux and `C:\Users\Username` on Windows).
 * **Root Directory**: The top-most directory in a file system, from which all other directories branch out (represented by `/` on macOS/Linux and `C:\` on Windows).
+* **Project Root Directory**: The top-most directory specific to a project, containing all the files and subdirectories related to that project.
 * **Absolute Path**: The complete, exact path to a file or directory starting from the root directory (e.g., `/home/user/climate_research` or `C:\Users\user\climate_research`).
 * **Relative Path**: The path to a file or directory relative to your current working directory (e.g., `src/main.py` or `../references`, where `..` refers to the parent directory).
 * **Terminal / Command Prompt / Shell**: The text-based application interface (TUI) used to type and execute commands.
@@ -369,8 +371,8 @@ To follow along with these examples, first open your terminal/command prompt, cr
 To evaluate if a student has successfully learned these commands, ask them to set up a clean, structured workspace for a scientific research project by performing the following step-by-step workflow:
 
 ### 6.1. Scenario: Setting up a Research Project Workspace
-The student needs to organize a new research project. To prevent plagiarism, the root directory and all subdirectories must include the student's English name (represented as `[yourname]`, e.g., `james` for this example):
-* Root directory: `climate_research_[yourname]` (e.g., `climate_research_james`)
+The student needs to organize a new research project. The practice root directory and all subdirectories must include the student's English name (represented as `[yourname]`, e.g., `james` for this example):
+* Project root directory: `climate_research_[yourname]` (e.g., `climate_research_james`)
 * Subdirectories: `src_[yourname]`, `output_[yourname]`, `paper_[yourname]/drafts_[yourname]`, `references_[yourname]`, and `doc_[yourname]`.
 
 Inside the `doc_[yourname]` directory, the student must create a `todo.txt` file where the first line is their name, followed by a simple task list (e.g., `- Complete literature review`, `- Write methods section`).
